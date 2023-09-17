@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard.css' %}">
+    <!-- Add your CSS and JavaScript links here -->
+</head>
+{% block content %}
+<body>
+
+
+    <div class="navbar">
+        <a href="{% url 'main-dashboard' %}" class="active">Home</a>
+        <a href="{% url 'patient-list' %}">Patients</a>
+        <a href="{% url 'book-appointment' %}">Create Appointment</a>
+      
+
+        <a class="active logout-button" href="{% url 'admin:index' %}">Admin Panel</a>
+        <a class="logout-button" href="{% url 'logout' %}">Logout</a>
+    </div>
+        
+
+{% endblock %}
+</html>

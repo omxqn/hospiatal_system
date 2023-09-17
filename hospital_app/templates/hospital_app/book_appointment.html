@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    {{ form.media }} <!-- Include widget's media files -->
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+</head>
+<body>
+    <header>
+        <h1>Book Appointment</h1>
+    </header>
+
+
+    {% include 'hospital_app/base.html' %}
+    {% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.patient.label_tag }}
+        {{ form.patient }}
+
+        {{ form.doctor.label_tag }}
+        {{ form.doctor }}
+
+        {{ form.appointment_date.label_tag }}
+        {{ form.appointment_date }}
+        
+        <div id="notification" class="notification hidden">
+            <span id="notification-message"></span>
+        </div>
+
+        <label for="manual_patient_id">Enter Patient ID Manually:</label>
+        <div style="display: inline-block;">
+        <input type="text" id="manual_patient_id" name="manual_patient_id" {% if form.patient.value %}disabled{% endif %}>
+        </div>
+            
+        <br>
+        <button type="submit" value="Book Appointment">Add Appointment</button>
+    </form>
+    {% if success_message %}
+<script>
+    // Show the success notification when the page loads
+    document.addEventListener('DOMContentLoaded', function () {
+        showNotification("{{ success_message }}", "success");
+    });
+</script>
+{% endif %}
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Your JavaScript code here
+    const patientDropdown = document.querySelector('#id_patient');
+    const manualPatientIdInput = document.querySelector('#manual_patient_id');
+    const selectElement = document.querySelector('#id_select_element'); // Replace with the actual ID of your <select> element
+
+    manualPatientIdInput.addEventListener('input', () => {
+        if (manualPatientIdInput.value !== "") {
+            patientDropdown.disabled = true;
+            patientDropdown.required = false;
+   
+        } else {
+            patientDropdown.disabled = false;
+            patientDropdown.required = true;
+        
+        }
+    });
+
+    patientDropdown.addEventListener('change', () => {
+        if (patientDropdown.value === '') {
+            manualPatientIdInput.disabled = false;
+            manualPatientIdInput.required = true;
+            
+        } else {
+            manualPatientIdInput.disabled = true;
+            manualPatientIdInput.required = false;
+            
+        }
+    });
+});
+    </script>
+<script>
+    function showNotification(message, type) {
+        const notification = document.getElementById('notification');
+        const messageElement = document.getElementById('notification-message');
+
+        messageElement.textContent = message;
+
+        // Set the notification class based on the type (e.g., success, error)
+        notification.className = `notification ${type}`;
+        notification.classList.remove('hidden');
+        
+        // Automatically hide the notification after a few seconds (optional)
+        setTimeout(() => {
+            notification.classList.add('hidden');
+        }, 3000); // 3 seconds (adjust as needed)
+    }
+</script>
+        
+    {% endblock %}
+
+    
+
+
+    {% include 'hospital_app/footer.html' %}
+</body>
+</html>

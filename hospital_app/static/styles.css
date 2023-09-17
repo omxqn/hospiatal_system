@@ -1,0 +1,81 @@
+/* Add your CSS styles here */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #06dcf8;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+main {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+footer {
+    background-color: #0074d9;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input, select, textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+}
+    
+button {
+    background-color: #0074d9;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #347ece;
+}
+
+#id_appointment_date {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#patient_id_appointment {
+    background-color: #0074d9;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+}

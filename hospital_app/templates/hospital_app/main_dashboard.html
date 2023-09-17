@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+<body>
+    <header>
+        <h1>Main Dashboard</h1>
+        <p>Welcome, {{ user.username }}!</p> <!-- Display the current user -->
+    </header>
+
+    {% include 'hospital_app/base.html' %}
+    {% block content %}
+    <nav>
+        <ul>
+            <li><a href="{% url 'main-dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'online-patients' %}">Online Patients</a></li>
+            <li><a href="{% url 'book-appointment' %}" class="button">Book Appointment</a></li>
+            <li><a href="{% url 'patient-registration' %}">Add New Patient</a></li>
+            <li><a href="{% url 'patient-list' %}">Patients List</a></li>
+        </ul>
+    </nav>
+    <main>
+        <!-- Your dashboard content goes here -->
+        <div class="online-patients">
+            <h3>List of Online Patients</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>First Name </th>
+                        <th>Last Name </th>
+                        <th>Date of Birth</th>
+                        <!-- Add more columns as needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in online_patients %}
+                    
+                        <tr>
+                            <td><a href="{% url 'patient-detail' patient.patient_id %}">{{ patient.patient_id }}</a></td>
+
+                            <td>{{ patient.first_name }}</td>
+                            <td>{{ patient.last_name }}</td>
+                            <td>{{ patient.date_of_birth }}</td>
+                            <!-- Display more patient information as needed -->
+                        </tr>
+                    
+                    {% empty %}
+                        <tr>
+                            <td colspan="3">No online patients at the moment.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br>
+            <br>
+        </div>
+        
+        <div class="dashboard-buttons">
+            <a href="{% url 'book-appointment' %}" class="button">Book Appointment</a>
+            <a href="{% url 'patient-registration' %}" class="button">Add New Patient</a>
+            <a href="{% url 'patient-list' %}" class="button">Patients List</a>
+        </div>
+        <form method="GET" action="{% url 'search-patient' %}">
+            <label for="patient-id">Patient ID:</label>
+            <input type="text" id="patient-id" name="patient_id" required>
+            <button type="submit">Search</button>
+            {% if error_message %}
+<p class="error-message">{{ error_message }}</p>
+{% endif %}
+        </form>
+        
+    </main>
+    {% if notify_message %}
+    <script>
+        // Show the success notification when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            showNotification("{{notify_type}}","{{ notify_message }}","{{notify_type}}");
+        });
+    </script>
+    {% endif %}
+
+    {% endblock %}
+    {% block javascript %}
+    <script>
+        function showNotification(type, message, title = '', buttonText = 'OK') {
+            let icon, color;
+    
+            switch (type) {
+                case 'success':
+                    icon = 'success';
+                    color = '#ffffff'; // Green
+                    break;
+                case 'error':
+                    icon = 'error';
+                    color = '#ffffff'; // Red
+                    break;
+                case 'warning':
+                    icon = 'warning';
+                    color = '#ffffff'; // Yellow
+                    break;
+                default:
+                    icon = 'info';
+                    color = '#ffffff'; // Blue
+                    break;
+            }
+    
+            Swal.fire({
+                title: title,
+                text: message,
+                icon: icon,
+                confirmButtonText: buttonText,
+                customClass: {
+                    popup: 'notification-popup',
+                },
+                showClass: {
+                    popup: 'animate__animated animate__fadeIn',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOut',
+                },
+                background: color,
+            });
+        }
+    
+        // Example usage:
+        // showNotification('success', 'Form submitted successfully!', 'Success');
+        // showNotification('error', 'Something went wrong!', 'Error', 'Close');
+    </script>
+    
+    
+    {% endblock %}
+    {% include 'hospital_app/footer.html' %}
+</body>
+</html>

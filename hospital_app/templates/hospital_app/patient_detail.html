@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Details</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Patient Details</h1>
+    </header>
+
+
+    {% include 'hospital_app/base.html' %}
+    {% block content %}
+
+    <main>
+        <div class="patient-details">
+            <h1>Patient Id: {{ patient.patient_id }}</h2>
+            <h2>{{ patient.first_name }} {{ patient.last_name }}</h2>
+            <p><strong>Date of Birth:</strong> {{ patient.date_of_birth }}</p>
+            <p><strong>Blood Type:</strong> {{ patient.blood_type }}</p>
+            <p><strong>Phone Number:</strong> {{ patient.phone_number }}</p>
+            <p><strong>Email:</strong> {{ patient.email }}</p>
+            <p><strong>Civil ID:</strong> {{ patient.national_id }}</p>
+            <!-- Add more patient details here -->
+        </div>
+        <a href="{% url 'patient-list' %}">Back to Patient List</a>
+    </main>
+    {% endblock %}
+
+
+    {% include 'hospital_app/footer.html' %}
+</body>
+</html>

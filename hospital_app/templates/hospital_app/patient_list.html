@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient List</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Patient List</h1>
+    </header>
+
+    
+    {% include 'hospital_app/base.html' %}
+
+    {% block content %}
+
+    <main>
+        <ul class="patient-list">
+            {% for patient in patients %}
+                <li>
+                    <a href="{% url 'patient-detail' patient.patient_id %}">
+                        {{ patient.first_name }} {{ patient.last_name }}
+                    </a>
+                </li>
+            {% empty %}
+                <li>No patients available.</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'patient-registration' %}">Register a New Patient</a>
+    </main>
+    {% endblock %}
+
+
+    
+    {% include 'hospital_app/footer.html' %}
+</body>
+</html>
